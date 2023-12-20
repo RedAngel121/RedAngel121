@@ -1,3 +1,5 @@
+-- Place this code in startup.lua in the Advanced Computer.
+
 local w,h = term.getSize()
 local nOption = 1
 
@@ -9,6 +11,8 @@ local gateAddress = {
     { locName = "Rankyne", address = {29,19,14,2,26,25,12,20,0}},
     -- { locName = "Hunter's Final Destination", address = {16,18,7,31,3,33,22,12,0}},
     -- { locName = "The Lost Fortress", address = {0}},
+    { locName = "Abydos", address = {26,6,14,31,11,29,0}},
+    { locName = "Chulak", address = {8,1,22,14,36,19,0}},
     { locName = "Moon Gate", address = {26,32,11,21,13,34,35,4,0}},
     { locName = "Mars Gate", address = {24,1,20,8,26,6,25,33,0}}
 }
@@ -16,10 +20,9 @@ local gateAddress = {
 function dial(address)
     printCenter(math.floor(h/2)-2, "Dialing Stargate Address")
     printCenter(math.floor(h/2)-1, "Please Wait...")
-    local addressLength = 9
     local start = interface.getChevronsEngaged() + 1
     local prevSymbol = 0
-    for chevron = start,addressLength,1 do
+    for chevron = start,#address.address,1 do
         local symbol = address.address[chevron]
         if (prevSymbol > symbol and (prevSymbol - symbol) < 19) or (prevSymbol < symbol and (symbol - prevSymbol) > 19) then
             interface.rotateClockwise(symbol)
@@ -39,7 +42,7 @@ function dial(address)
     end
     printCenter(math.floor(h/2)-1, "Dialing Complete")
     sleep(3)
-    shell.run("disk/menu.lua")
+    os.reboot()
 end
 
 function printCenter (y,s)
@@ -81,4 +84,3 @@ while true do
         break
     end
 end
-os.reboot()
